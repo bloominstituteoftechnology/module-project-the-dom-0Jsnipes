@@ -11,8 +11,9 @@ function moduleProject1() {
   // 👉 TASK 1 - Add a "widget" class name to widgets so CSS kicks in
   //  ✨ add your code here
   const widgets = document.querySelectorAll('section>div')
-  widgets.forEach(widget => {
+  widgets.forEach((widget,idx) => {
     widget.classList.add('widget')
+   widget.setAttribute('tabindex', idx +1 +"")
   })
   // 👉 TASK 2 - Build a "Quote of the Day" widget
   //  ✨ add your code here
@@ -65,13 +66,37 @@ const paragraph = document.createElement('p')
   const person = people[Math.floor(Math.random() * people.length)]
   const friendsWidget = document.createElement('p')
   document.querySelector('.friends').appendChild(friendsWidget)
-  friendsWidget.textContent = `${person.fname}` 
+  const year = person.dateOfBirth.split('-')[0]
+  let sentence = `${person.fname} ${person.lname} was born in ${year} and `
 
+ if (!person.friends.length) {
+sentence += 'has no friends.'
+  } else {
+    sentence += 'is friends with '
+    for (let i = 0; i < person.friends.length; i++){
+      const friendID = person.friends[i]
+      const friend = people.find(p => p.id === friendID)
+      const fullName = `${friend.fname} ${friend.lname}`
+      console.log(fullName)
+      let isLastIdx = i === person.friends.length -1
+      let isNextToLastIdx= i === person.friends.length -2
+      if (isLastIdx){
+        sentence += `${fullName}.`
+      } else if (isNextToLastIdx){
+        sentence += `${fullName} and `
+      } else {
+        sentence += `${fullName}, `
+      }
+    }
+  }
+  friendsWidget.textContent = sentence
+
+}
   // 👉 TASK 6 - Make it so user can tab through the widgets
   //  ✨ add your code here
 
   // 👆 WORK WORK ABOVE THIS LINE 👆
-}
+
 
 // ❗ DO NOT WORK BELOW THIS LINE
 // ❗ DO NOT WORK BELOW THIS LINE
